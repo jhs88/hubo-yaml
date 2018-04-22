@@ -1,0 +1,64 @@
+
+
+# this is a comment
+
+# We need to work out what our goals are for the syntax
+# We want a system that is EASIER to use than coding for Hubo in Python
+# But we might also want syntax that allows for flexibility in coding more advanced applications
+# The crucial part is striking the right balance: no one person would get everything that they want
+
+# Bonus points: perhaps have a way to transcode the YAML file into C++ (ROS)?
+# (This is technically what Python does as well)
+# The idea is that the file is "language agnostic" and could theoretically create a script from any language
+
+
+# We should also try to "document" the tags by explaining how they will be used
+# This will make it easier to see which tags may be redundant
+
+
+# I'm not fully sure that this necessary but may be convenient to have as a quality-of-life feature
+shebang: "!#/usr/bin/python"  # points to the python executable -- this ie what makes the file executable as a script (e.g. ./scriptName.py)
+
+# We can declare tags like these anywhere
+units: deg              # set the units as degrees
+velocity: sync          # joint movement starts and finishes at the same time
+max-velocity: 60        # set the maximum velocity of any joint at 60 degrees per second
+
+
+
+
+# We need a "main" function that runs the functions that we define in the body of the file
+run:
+    hands-up
+    move-elbow
+    LSP: -p -45 # We want to use these tags anywhere as well
+    hands-up
+
+
+# We want to define a "shorthand" way of writing functions to perform gestures
+# Essentially, this gesture is being written as a Python function called "hands-up"
+gesture: hands-up
+    frame:
+        LSP: -p -10
+        LSY: -p 30
+
+    frame:
+        LSP: -p -5
+        LEP: -p 10
+
+# We might also want to allow a "longhand" way of inserting full Python code snippets into the script
+function: move-elbow
+    snippet: > # inserts a Python snippet into the generated code
+        setProperty("REP", "position", deg2rad(90))
+        # This is a Python comment
+        print("Moving elbow")
+
+        # We can define Python functions as we would in any Python script
+        def move_wrist:
+            setProperty("REP", "position", deg2rad(90))
+
+        # We can also insert the gestures as "functions" in Python
+        hands-up()
+
+
+# I'm not sure if we should have the "setProperties" and "getProperties" functions check to see if the script is interpreting units as degrees or radians
