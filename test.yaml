@@ -1,0 +1,19 @@
+units: rad
+
+hello:
+  RSY: 1
+  LSY: 1
+
+bye:
+  WSD: 1
+  RSR: 1
+
+sleep:
+  RSY: 1
+  LSY: 1
+
+
+run:
+  - hello
+  - bye
+  - sleep
