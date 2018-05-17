@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 
 import yaml
+
 from Maestor import maestor
+
 from math import pi
 
 robot = maestor()
@@ -10,10 +12,11 @@ robot = maestor()
 with open('test.yaml', 'r') as f:
     doc = yaml.load(f)
 
-if doc['units'] == 'deg':
-    convertFac = pi / 180
-else:
-    convertFac = 1
+convertFac = 1
+for names in doc:
+    if names == 'units':
+        if doc[names] == 'deg':
+            convertFac = pi / 180
 
 joints = ' '.join(doc['gesture'])
 positions = [(doc['gesture'][i] * convertFac) for i in doc['gesture']]
