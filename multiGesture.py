@@ -2,14 +2,16 @@
 
 import yaml
 
+import sys
+
 from Maestor import maestor
 
 from math import pi
 
 robot = maestor()
 
-# Rename test.yaml to your YAML file
-with open('test.yaml', 'r') as f:
+fname = sys.argv[1]
+with open(fname, 'r') as f:
     doc = yaml.load(f)
 
 convertFac = 1
