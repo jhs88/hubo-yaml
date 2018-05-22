@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 
 import yaml
-
 import sys
+import re
 
 from Maestor import maestor
-
 from math import pi
 
 robot = maestor()
@@ -21,7 +20,14 @@ for names in doc:
             convertFac = pi / 180
 
 for names in doc['run']:
-    joints = ' '.join(doc[names])
-    positions = [(doc[names][i] * convertFac) for i in doc[names]]
-    strPositions = ' '.join([str(i) for i in positions])
-    robot.setProperties(joints, ' '.join(len(doc[names]) * ['position']), strPositions)
+    jointArray = isJoint(doc[names])
+    joints = ' '.join(jointArray)
+    positions = [(doc[names][tag] * convertFac) for tag in jointArray]
+    strPositions = ' '.join([str(tag) for tag in positions])
+    robot.setProperties(joints, ' '.join(len(jointArray) * ['position']), strPositions)
+
+def isJoint(tag): # tag is a String or list of Strings
+    matchObj = re.compile("[LR][SEWHKA][RPY]")
+    # [LR][F][1-5] WST NKY NK[1-2]
+    joint = filter(matchObj.match, tag)
+    return str(joint)
