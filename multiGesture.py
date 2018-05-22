@@ -13,7 +13,7 @@ def isJoint(tag): # tag is a String or list of Strings
     matchObj = re.compile("[LR][SEWHKA][RPY]")
     # [LR][F][1-5] WST NKY NK[1-2]
     joint = filter(matchObj.match, tag)
-    return str(joint)
+    return joint
 
 def main():
     fname = sys.argv[1]
