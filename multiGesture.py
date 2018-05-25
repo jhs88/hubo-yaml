@@ -10,9 +10,8 @@ from math import pi
 robot = maestor()
 
 def isJoint(tag): # tag is a String or list of Strings
-    matchObj = re.compile("[LR][SEWHKA][RPY]")
-    # [LR][F][1-5] WST NKY NK[1-2]
-    joint = filter(matchObj.match, tag)
+    validTags= re.compile("[LR][SH][RPY]|[LR][KE]P|[LR]A[RP]|[LR]W[PY]|[LR][F][1-5]|WST|NKY|NK[12]")
+    joint = filter(validTags.match, tag)
     return joint
 
 def main():
@@ -22,9 +21,8 @@ def main():
 
     convertFac = 1
     for names in doc:
-        if names == 'units':
-            if doc[names] == 'deg':
-                convertFac = pi / 180
+        if names == 'units' and doc[names] == 'deg':
+            convertFac = pi / 180
 
     for names in doc['run']:
         jointArray = isJoint(doc[names])
