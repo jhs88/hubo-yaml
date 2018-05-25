@@ -70,7 +70,7 @@ def main():
 
 
 
-    for g in gestures:
+    for g in parseYAML(doc):
         g.execute(robot)
 
 if __name__ == '__main__':
