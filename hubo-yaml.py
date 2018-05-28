@@ -41,9 +41,11 @@ def isJoint(tag):
 
 def isWait(tag):
     matchWait = re.compile('waitFor')
-    if matchWait is not None:
+    result = filter(matchWait.match, tag)
+    if result != []:
         return tag['waitFor'].split(" ")
-    return filter(matchWait.match, tag)
+    else:
+        return None
 
 def parseYAML(dictionary):
     gestures = []
