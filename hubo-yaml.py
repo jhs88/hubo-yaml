@@ -46,7 +46,7 @@ def isWait(tag):
     matchWait = re.compile('waitFor')
     result = filter(matchWait.match, tag)
     if result != []:
-        return tag['waitFor'].split(" ")
+        return isJoint(tag['waitFor'].split(" "))
     else:
         return None
 
