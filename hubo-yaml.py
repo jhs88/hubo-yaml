@@ -25,9 +25,9 @@ class Gesture(object):
 
     def execute(self, robot):
         robot.setProperties(' '.join(self.JOINTS), ' '.join(len(self.JOINTS) * ['position']), ' '.join(str(i * self.CONVERSION) for i in self.POSTIONS))
-        if self.WAITS != []:
+        if self.WAITS != None:
             for joints in self.WAITS:
-                robot.waitForJoints(joints)
+                robot.waitForJoint(joints)
 
 def isJoint(tag):
     validTags = re.compile("[LR][SH][RPY]|[LR][KE]P|[LR]A[RP]|[LR]W[PY]|[LR][F][1-5]|WST|NKY|NK[12]")
