@@ -19,12 +19,15 @@ class Gesture(object):
 
     def getString(self):
         self.SETPROPSTR = "robot.setProperties(" \
-        + ' '.join(joints) + ',' + ' '.join(len(jointArray) * ['position']) + ',' \
+        + ' '.join(joints) + ',' + ' '.join(len(joints) *  ['position']) + ',' \
         + ' '.join(str(i * self.CONVERSION) for i in self.POSTIONS) + ")"
         return self.SETPROPSTR
 
     def execute(self, robot):
-        return robot.setProperties(' '.join(self.JOINTS), ' '.join(len(self.JOINTS) * ['position']), ' '.join(str(i * self.CONVERSION) for i in self.POSTIONS))
+        robot.setProperties(' '.join(self.JOINTS), ' '.join(len(self.JOINTS) * ['position']), ' '.join(str(i * self.CONVERSION) for i in self.POSTIONS))
+        if self.WAITS != []:
+            for joints in self.WAITS:
+                robot.waitForJoints(joints)
 
 def isJoint(tag):
     validTags = re.compile("[LR][SH][RPY]|[LR][KE]P|[LR]A[RP]|[LR]W[PY]|[LR][F][1-5]|WST|NKY|NK[12]")
@@ -63,14 +66,11 @@ def parseYAML(dictionary):
         gestures.append(Gesture(name, joints, positions, waits, conversion))
     return gestures
 
-
 def main():
 
     fname = sys.argv[1]
     with open(fname, 'r') as f:
         doc = yaml.load(f)
-
-
 
     for g in parseYAML(doc):
         g.execute(robot)
